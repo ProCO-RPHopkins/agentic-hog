@@ -1,0 +1,16 @@
+flowchart TD
+  U[You] --> S(Scout: Issue alignment)
+  S -->|issue chosen| PM(PM: Story & AC)
+  PM -->|Pause Gate #1: approve/edit| SE(Senior Eng: RFC + plan.json)
+  SE -->|Pause Gate #2: approve/edit| IMP(Implementer: minimal diffs)
+  IMP --> QA(QA: tests run & report)
+  QA --> DOCS(Docs/Reviewer: PR body + docs)
+  DOCS --> PR((Draft PR on GitHub))
+  subgraph Advisors
+    CH[(ClickHouse/HogQL Advisor)]
+  end
+  SE -->|if plan.clickhouse_hogql_touchpoints not empty| CH
+  CH --> SE
+
+  classDef pause fill:#fff,border:2px dashed #333,color:#333;
+  class PM,SE pause;
